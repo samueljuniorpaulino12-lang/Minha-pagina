@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Samuel GYM - Planos</title>
+
+    <link rel="stylesheet" href="estilo.css">
+</head>
+
+<body>
+
+<header>
+    <a class="logo" href="Index.html" aria-label="Samuel GYM — página inicial">Samuel<span>GYM</span></a>
+
+    <button class="menu-btn" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">☰</button>
+
+    <nav id="menu" aria-label="Navegação principal">
+        <a href="Index.html">Início</a>
+        <a href="sobre.html">Sobre Nós</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="planos.html">Planos</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+</header>
+
+<section class="pagina central">
+
+    <p class="titulo">NOSSOS PREÇOS</p>
+
+    <h1>
+        PLANOS DE <span>TREINO</span>
+    </h1>
+
+    <div class="planos-container">
+
+        <div class="plano">
+
+            <h3>BÁSICO</h3>
+
+            <div class="preco">
+                1.500
+                <small>MZN / MÊS</small>
+            </div>
+
+            <p>✓ Acesso ao ginásio</p>
+            <p>✓ Área de musculação</p>
+            <p>✓ Área de cardio</p>
+            <p>✓ Balneários</p>
+
+            <a href="contacto.html" class="botao">
+                ESCOLHER
+            </a>
+
+        </div>
+
+        <div class="plano principal">
+
+            <div class="popular">
+                MAIS POPULAR
+            </div>
+
+            <h3>PREMIUM</h3>
+
+            <div class="preco">
+                2.500
+                <small>MZN / MÊS</small>
+            </div>
+
+            <p>✓ Acesso ilimitado</p>
+            <p>✓ Todos os equipamentos</p>
+            <p>✓ Personal Trainer</p>
+            <p>✓ Treino funcional</p>
+
+            <a href="contacto.html" class="botao">
+                ESCOLHER
+            </a>
+
+        </div>
+
+        <div class="plano">
+
+            <h3>VIP</h3>
+
+            <div class="preco">
+                4.000
+                <small>MZN / MÊS</small>
+            </div>
+
+            <p>✓ Acesso ilimitado</p>
+            <p>✓ Personal Trainer</p>
+            <p>✓ Plano de treino</p>
+            <p>✓ Acompanhamento individual</p>
+
+            <a href="contacto.html" class="botao">
+                ESCOLHER
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="logo">Samuel<span>GYM</span></div>
+
+    <p>Saúde, força e disciplina em Pemba.</p>
+
+    <div class="links">
+        <a href="Index.html">Início</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="servicos.html">Serviços</a>
+        <a href="planos.html">Planos</a>
+        <a href="contacto.html">Contacto</a>
+    </div>
+
+    <p class="copyright">
+        © 2026 Samuel GYM. Todos os direitos reservados.
+    </p>
+
+</footer>
+
+    <script src="script.js" defer></script>
+</body>
+<!-- ...existing code... -->
+<div class="calculadora">
+    <h3>Calcule o valor do plano</h3>
+
+    <label for="planoCalculadora">Escolha o plano:</label>
+    <select id="planoCalculadora">
+        <option value="1500">Básico — 1.500 MZN por mês</option>
+        <option value="2500">Premium — 2.500 MZN por mês</option>
+        <option value="4000">VIP — 4.000 MZN por mês</option>
+    </select>
+
+    <label for="meses">Número de meses:</label>
+    <input type="number" id="meses" min="1" value="1">
+
+    <button type="button" onclick="calcularPlano()">Calcular total</button>
+    <p id="totalPlano" aria-live="polite"></p>
+</div>
+<!-- ...existing code... -->
+</html>
