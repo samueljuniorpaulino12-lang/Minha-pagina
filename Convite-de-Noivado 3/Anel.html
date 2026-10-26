@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#8f3154">
+    <title>Flora &amp; Samuel | Convite de Noivado</title>
+
+    <style>
+        :root {
+            --vinho: #87314f;
+            --rosa: #b44f70;
+            --texto: #533542;
+            --claro: #fff8fa;
+            --borda: #efd2dc;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            isolation: isolate;
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px 16px;
+            color: var(--texto);
+            font-family: Georgia, "Times New Roman", serif;
+            background: transparent;
+        }
+
+        body::before,
+        body::after {
+            position: fixed;
+            inset: -12px;
+            z-index: -1;
+            content: "";
+            pointer-events: none;
+        }
+
+        body::before {
+            background: var(--slide-bg, linear-gradient(135deg, #443b38, #182323)) center 38% / cover no-repeat;
+            filter: blur(13px) saturate(.7);
+            transform: scale(1.06);
+            transition: background-image .8s ease;
+        }
+
+        body::after {
+            inset: 0;
+            background: linear-gradient(135deg, rgba(64, 24, 41, .42), rgba(113, 44, 69, .3));
+        }
+
+        .convite {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 720px);
+            margin: 0 auto;
+            padding: clamp(24px, 6vw, 56px);
+            border: 1px solid rgba(255, 255, 255, .9);
+            border-radius: 28px;
+            background: rgba(255, 250, 251, .94);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 22px 65px rgba(93, 40, 61, .18);
+            text-align: center;
+        }
+
+        .anel {
+            font-size: 54px;
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+        .etiqueta {
+            margin: 12px 0;
+            color: var(--rosa);
+            font: 700 12px Arial, sans-serif;
+            letter-spacing: .24em;
+        }
+
+        h1 {
+            margin: 8px 0;
+            color: var(--vinho);
+            font-size: clamp(40px, 9vw, 68px);
+            font-style: italic;
+        }
+
+        h1 span {
+            color: #d28aa0;
+        }
+
+        .titulo-noivado {
+            margin: 0 0 18px;
+            color: #79445a;
+            font-size: clamp(22px, 5vw, 30px);
+            font-weight: normal;
+        }
+
+        .introducao {
+            max-width: 520px;
+            margin: 18px auto;
+            font-size: 18px;
+            line-height: 1.75;
+        }
+
+        .data,
+        .contagem {
+            margin: 24px 0;
+            padding: 22px;
+            border: 1px solid var(--borda);
+            border-radius: 20px;
+            background: linear-gradient(135deg, #fff4f7, #fffafd);
+        }
+
+        .data p {
+            margin: 8px;
+            font-size: 18px;
+        }
+
+        .contagem {
+            border: 0;
+            background: linear-gradient(135deg, #87314f, #57283d);
+            box-shadow: 0 14px 35px rgba(82, 35, 55, .22);
+            color: white;
+        }
+
+        .contagem h2,
+        .formulario h2 {
+            margin-top: 0;
+            color: var(--vinho);
+        }
+
+        .contagem h2 {
+            color: white;
+            font-size: clamp(22px, 5vw, 30px);
+        }
+
+        .contagem-legenda {
+            margin: -8px 0 18px;
+            color: #f5dfe7;
+            font: 14px Arial, sans-serif;
+        }
+
+        #contador {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 9px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .unidade-contagem {
+            padding: 13px 7px 11px;
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .unidade-contagem:first-child {
+            background: rgba(255, 255, 255, .19);
+        }
+
+        .numero-contagem {
+            display: block;
+            color: #ffe7b5;
+            font-size: clamp(26px, 7vw, 44px);
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            line-height: 1.1;
+        }
+
+        .unidade-contagem:not(:first-child) .numero-contagem {
+            color: white;
+            font-size: clamp(22px, 5vw, 32px);
+        }
+
+        .rotulo-contagem {
+            display: block;
+            margin-top: 5px;
+            color: #f6e5eb;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .contador-final {
+            grid-column: 1 / -1;
+            margin: 0;
+            color: #ffe7b5;
+            font: 700 clamp(20px, 5vw, 28px) Arial, sans-serif;
+        }
+
+        .formulario {
+            margin-top: 30px;
+            padding: clamp(18px, 4vw, 32px);
+            border: 1px solid var(--borda);
+            border-radius: 22px;
+            background: var(--claro);
+            text-align: left;
+        }
+
+        .descricao {
+            margin: 0 0 22px;
+            color: #755b66;
+            text-align: center;
+        }
+
+        form > label,
+        fieldset legend {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #95516a;
+            border-radius: 11px;
+            background: rgb(238, 232, 232);
+            color: #13040b;
+            font: 16px Arial, sans-serif;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 3px solid rgba(180, 79, 112, .18);
+            border-color: var(--rosa);
+        }
+
+        select:disabled {
+            background: #db0570;
+            color: #010001;
+        }
+
+        fieldset {
+            margin: 18px 0;
+            padding: 12px 16px;
+            border: 1px solid var(--borda);
+            border-radius: 13px;
+        }
+
+        fieldset legend {
+            padding: 0 5px;
+        }
+
+        .opcao {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 11px 0;
+            font-weight: normal;
+        }
+
+        .opcao input {
+            width: auto;
+            accent-color: var(--rosa);
+        }
+
+        .previsao,
+        .estado {
+            min-height: 22px;
+            color: #9d808c;
+            font: 14px Arial, sans-serif;
+            line-height: 1.5;
+        }
+
+        .canais-resposta[hidden] { display: none; }
+        .canais-resposta { display: grid; gap: 10px; margin-top: 16px; }
+        .canais-resposta a { display: block; padding: 14px 16px; border-radius: 10px; background: #168b53; color: white; font: 700 15px Arial, sans-serif; text-decoration: none; }
+        .canais-resposta a.email { background: var(--vinho); }
+
+        button {
+            width: 100%;
+            margin-top: 16px;
+            padding: 16px;
+            border: 0;
+            border-radius: 30px;
+            background: var(--vinho);
+            color: rgb(19, 8, 8);
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: bold;
+            transition: background .2s, transform .2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: #69223e;
+        }
+
+        button:disabled {
+            cursor: wait;
+            opacity: .7;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--vinho);
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .armadilha {
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .convite {
+                border-radius: 20px;
+            }
+
+            #contador {
+                gap: 6px;
+            }
+
+            .unidade-contagem {
+                padding: 11px 3px 9px;
+                border-radius: 11px;
+            }
+
+            .rotulo-contagem {
+                font-size: 9px;
+                letter-spacing: .04em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Paleta neutra para deixar o convite inteiro sobre a fotografia */
+        :root {
+            --vinho: #f3d59b;
+            --rosa: #f3d59b;
+            --texto: #fffaf1;
+            --claro: rgba(18, 24, 25, .38);
+            --borda: rgba(255, 255, 255, .3);
+        }
+
+        body {
+            color: var(--texto);
+        }
+
+        body::before {
+            filter: blur(12px) saturate(.3) grayscale(.55);
+        }
+
+        body::after {
+            background: linear-gradient(135deg, rgba(12, 20, 21, .72), rgba(20, 26, 27, .62));
+        }
+
+        .convite {
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
+            color: var(--texto);
+            backdrop-filter: none;
+        }
+
+        .anel {
+            color: var(--vinho);
+        }
+
+        .etiqueta,
+        h1,
+        .titulo-noivado,
+        .contagem h2,
+        .formulario h2,
+        footer {
+            color: var(--vinho);
+        }
+
+        h1 span {
+            color: #fffaf1;
+        }
+
+        .introducao,
+        .data p,
+        .descricao,
+        form > label,
+        fieldset legend,
+        .opcao,
+        .previsao,
+        .estado {
+            color: var(--texto);
+        }
+
+        .data,
+        .contagem {
+            border-color: rgba(255, 255, 255, .28);
+            background: rgba(15, 22, 23, .3);
+            box-shadow: none;
+        }
+
+        .contagem-legenda,
+        .rotulo-contagem {
+            color: #f5eee1;
+        }
+
+        .unidade-contagem,
+        .unidade-contagem:first-child {
+            border-color: rgba(255, 255, 255, .35);
+            background: rgba(12, 18, 19, .34);
+        }
+
+        .numero-contagem,
+        .unidade-contagem:not(:first-child) .numero-contagem,
+        .contador-final {
+            color: #f3d59b;
+        }
+
+        .formulario {
+            border-color: rgba(255, 255, 255, .28);
+            background: rgba(15, 22, 23, .34);
+        }
+
+        input,
+        select,
+        textarea {
+            border-color: rgba(243, 213, 155, .75);
+            background: rgba(255, 255, 255, .94);
+            color: #202523;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline-color: rgba(243, 213, 155, .42);
+            border-color: #f3d59b;
+        }
+
+        select:disabled {
+            background: rgba(255, 255, 255, .72);
+            color: #555;
+        }
+
+        fieldset {
+            border-color: rgba(255, 255, 255, .3);
+        }
+
+        .opcao input {
+            accent-color: #d9bb79;
+        }
+
+        button {
+            background: #d9bb79;
+            color: #242824;
+        }
+
+        button:hover {
+            background: #efd99f;
+        }
+
+        @media (max-width: 480px) {
+            .convite {
+                padding-inline: 14px;
+            }
+        }
+
+        /* Slideshow romântico e música */
+        .memorias {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 100vh;
+            place-items: end center;
+            overflow: hidden;
+            margin: 0;
+            border: 0;
+            border-radius: 0;
+            background: #242323;
+            box-shadow: none;
+            text-align: left;
+        }
+        .memoria-foto {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 28%;
+            opacity: 0;
+            transform: translateY(105%);
+            transition: opacity 1s ease, transform 1.25s cubic-bezier(.22,.75,.25,1);
+        }
+        .memoria-foto.ativa { opacity: 1; transform: translateY(0); }
+        .memoria-foto.subiu { opacity: 0; transform: translateY(-105%); }
+        .memorias::after {
+            position: absolute;
+            inset: 0;
+            content: "";
+            background: linear-gradient(180deg, rgba(9,12,13,.32), rgba(9,12,13,.55) 48%, rgba(9,12,13,.78));
+            pointer-events: none;
+        }
+        .memoria-legenda {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: clamp(20px, 5vw, 34px);
+            color: #fffaf1;
+        }
+        .memoria-legenda p { margin: 0 0 8px; color: #f3d59b; font: 700 11px Arial,sans-serif; letter-spacing: .22em; text-transform: uppercase; }
+        .memoria-legenda h2 { max-width: 560px; margin: 0; font-size: clamp(25px, 5.5vw, 42px); font-style: italic; font-weight: 400; line-height: 1.18; text-wrap: balance; transition: opacity .35s ease; }
+        .memoria-evento { display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:17px; color:#fffaf1; font:700 13px/1.5 Arial,sans-serif; }
+        .memoria-evento span { display:inline-block; }
+        .memoria-pontos { position:absolute; z-index:2; top:18px; right:18px; display:flex; gap:8px; }
+        .memoria-ponto { width:9px; height:9px; padding:0; margin:0; border:1px solid white; border-radius:50%; background:rgba(255,255,255,.4); cursor:pointer; }
+        .memoria-ponto.ativa { background:#f3d59b; }
+        .musica { position:fixed; z-index:10; top:18px; left:18px; width:min(320px, calc(100vw - 36px)); padding:4px; border:1px solid rgba(255,255,255,.5); border-radius:14px; background:rgba(20,20,20,.72); box-shadow:0 8px 24px rgba(0,0,0,.25); }
+        .musica audio { display:block; width:100%; height:40px; }
+        .somente-leitor { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+        .memoria-legenda.nova { animation: texto-sobe .95s cubic-bezier(.2,.7,.3,1) both; }
+        @keyframes texto-sobe { from { opacity:0; transform:translateY(42px); } to { opacity:1; transform:translateY(0); } }
+        @media (prefers-reduced-motion: reduce) { .memoria-foto, .memoria-legenda h2 { transition:none; } .memoria-legenda.nova { animation:none; } }
+    </style>
+</head>
+
+<body>
+    <main class="convite">
+        <div class="anel" aria-hidden="true">💍</div>
+        <p class="etiqueta">UM MOMENTO ESPECIAL</p>
+
+        <section class="memorias" aria-label="Slideshow de Flora e Samuel">
+            <img class="memoria-foto ativa" src="convite-flora-samuel.jpg" alt="Flora e Samuel juntos" fetchpriority="high">
+            <img class="memoria-foto" src="convite-flora-1.jpg" alt="Flora numa noite especial" loading="lazy">
+            <img class="memoria-foto" src="convite-flora-2.jpg" alt="Flora sentada num banco" loading="lazy">
+            <img class="memoria-foto" src="convite-flora-3.jpg" alt="Flora junto à piscina" loading="lazy">
+            <img class="memoria-foto" src="convite-flora-4.jpg" alt="Flora na praia" loading="lazy">
+            <img class="memoria-foto" src="convite-flora-5.jpg" alt="Flora sorridente" loading="lazy">
+            <img class="memoria-foto" src="convite-flora-6.jpg" alt="Flora numa noite elegante" loading="lazy">
+            <img class="memoria-foto" src="convite-samuel-1.jpg" alt="Samuel de fato preto" loading="lazy">
+            <img class="memoria-foto" src="convite-samuel-2.jpg" alt="Samuel de camisa branca" loading="lazy">
+            <img class="memoria-foto" src="convite-samuel-3.jpg" alt="Samuel numa viagem" loading="lazy">
+            <div class="memoria-pontos" aria-label="Escolher fotografia">
+                <button class="memoria-ponto ativa" type="button" aria-label="Mostrar fotografia 1"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 2"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 3"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 4"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 5"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 6"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 7"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 8"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 9"></button>
+                <button class="memoria-ponto" type="button" aria-label="Mostrar fotografia 10"></button>
+            </div>
+            <div class="memoria-legenda" aria-live="polite">
+                <p id="memoria-etiqueta">Um momento nosso</p>
+                <h2 id="memoria-frase">Com alegria, queremos celebrar contigo o início de uma nova etapa.</h2>
+                <div class="memoria-evento"><span>09 de janeiro de 2027</span><span>14h00</span><span>Pemba, Cabo Delgado</span></div>
+            </div>
+        </section>
+
+        <section class="musica" aria-label="Música do convite">
+            <audio id="audioMusica" controls loop preload="metadata" playsinline aria-label="Reproduzir música do convite">
+                <source src="./musica-noivado.m4a" type="audio/mp4">
+                <source src="./musica-original-noivado.mp3" type="audio/mpeg">
+            </audio>
+        </section>
+
+        <h1>Flora <span>&amp;</span> Samuel</h1>
+        <h2 class="titulo-noivado">Nosso Noivado</h2>
+
+        <p class="introducao">
+            Com muita alegria, convidamos-te para celebrar connosco
+            este momento tão especial.
+        </p>
+
+        <section class="data" aria-label="Data e local do noivado">
+            <p>📅 09 de janeiro de 2027, às 14h00</p>
+            <p>Pemba, Cabo Delgado</p>
+        </section>
+
+        <section class="contagem" aria-label="Contagem regressiva">
+            <h2>Falta pouco para o grande dia</h2>
+            <p class="contagem-legenda">A contagem decrescente para 09 de janeiro de 2027</p>
+            <div id="contador" role="timer" aria-live="off" aria-label="A carregar a contagem"></div>
+        </section>
+
+        <section class="formulario">
+            <h2>💌 Confirma a tua presença</h2>
+                <p class="descricao">Preenche os dados e escolhe se queres enviar a confirmação por WhatsApp ou e-mail.</p>
+
+            <form id="formularioRSVP" action="#" method="POST">
+        
+
+                <label for="nome">Nome completo</label>
+                <input id="nome" name="nome" type="text"
+                       autocomplete="name" required>
+
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email"
+                       autocomplete="email" required>
+
+                <label for="telefone">Telefone / WhatsApp</label>
+                <input id="telefone" name="telefone" type="tel"
+                       autocomplete="tel">
+
+                <fieldset>
+                    <legend>Vais participar?</legend>
+                    <label class="opcao">
+                        <input type="radio" name="presenca"
+                               value="Sim, vou estar presente" required>
+                        ❤️ Sim, vou estar presente
+                    </label>
+                    <label class="opcao">
+                        <input type="radio" name="presenca"
+                               value="Não poderei estar presente">
+                        Não poderei estar presente
+                    </label>
+                </fieldset>
+
+                <label for="acompanhantes">Número de acompanhantes</label>
+                <select id="acompanhantes" name="acompanhantes" disabled>
+                    <option value="0">Só eu</option>
+                    <option value="1">1 acompanhante</option>
+                    <option value="2">2 acompanhantes</option>
+                    <option value="3">3 acompanhantes</option>
+                    <option value="4">4 acompanhantes</option>
+                    <option value="5">5 acompanhantes</option>
+                </select>
+
+                <p id="previsao" class="previsao" aria-live="polite">
+                    Seleciona se vais participar.
+                </p>
+
+                <label for="mensagem">Mensagem para Flora &amp; Samuel (opcional)</label>
+                <textarea id="mensagem" name="mensagem" rows="4"
+                          placeholder="Escreve uma mensagem..."></textarea>
+
+                <div class="armadilha" aria-hidden="true">
+                    <label for="website">Deixa este campo vazio</label>
+                    <input id="website" name="website" type="text"
+                           tabindex="-1" autocomplete="off">
+                </div>
+
+                <button id="botaoEnviar" type="submit">💍 Enviar confirmação</button>
+                <p id="estadoFormulario" class="estado" role="status" aria-live="polite"></p>
+                <div class="canais-resposta" id="canaisResposta" hidden>
+                    <a id="enviarWhatsApp" target="_blank" rel="noopener noreferrer">Enviar confirmação pelo WhatsApp</a>
+                    <a class="email" id="enviarEmail" target="_blank" rel="noopener noreferrer">Abrir Gmail com a confirmação</a>
+                </div>
+            </form>
+        </section>
+
+        <footer>Com carinho,<br>Flora &amp; Samuel ❤️</footer>
+    </main>
+
+    <script>
+        const contador = document.getElementById("contador");
+        const formulario = document.getElementById("formularioRSVP");
+        const acompanhantes = document.getElementById("acompanhantes");
+        const previsao = document.getElementById("previsao");
+        const estado = document.getElementById("estadoFormulario");
+        const botaoEnviar = document.getElementById("botaoEnviar");
+        const canaisResposta = document.getElementById("canaisResposta");
+
+        // As mensagens e imagens avançam juntas; os pontos permitem navegar manualmente.
+        const slides = Array.from(document.querySelectorAll(".memoria-foto"));
+        const pontosSlide = Array.from(document.querySelectorAll(".memoria-ponto"));
+        document.body.style.setProperty("--slide-bg", `url("${slides[0].getAttribute("src")}")`);
+        const frasesSlide = [
+            ["Um momento nosso", "Com alegria, queremos celebrar contigo o início de uma nova etapa."],
+            ["Uma história a dois", "Cada passo da nossa história trouxe-nos até este momento."],
+            ["Memórias que guardamos", "O amor também vive nos instantes simples que partilhamos."],
+            ["Um caminho partilhado", "Seguimos lado a lado, com carinho e esperança."],
+            ["Com amor e gratidão", "Estamos felizes por partilhar este dia especial contigo."],
+            ["A nossa alegria", "A tua presença tornará este momento ainda mais especial."],
+            ["Flora & Samuel", "Celebramos o amor, a amizade e a vida que queremos construir."],
+            ["Um novo capítulo", "O nosso noivado é o começo de uma bonita promessa."],
+            ["Juntos", "Que este dia fique guardado com carinho no coração."],
+            ["Esperamos por ti", "Vem celebrar connosco esta data tão importante."]
+        ];
+        let slideAtual = 0;
+        let relogioSlides;
+
+        function mostrarSlide(indice) {
+            const anterior = slideAtual;
+            const proximo = (indice + slides.length) % slides.length;
+            if (proximo === anterior) return;
+            slides[anterior].classList.remove("ativa");
+            slides[anterior].classList.add("subiu");
+            slides.forEach((slide, i) => {
+                if (i !== anterior && i !== proximo) slide.classList.remove("ativa", "subiu");
+            });
+            const proximaFoto = slides[proximo];
+            proximaFoto.classList.remove("subiu", "ativa");
+            void proximaFoto.offsetWidth;
+            proximaFoto.classList.add("ativa");
+            slideAtual = proximo;
+            pontosSlide.forEach((ponto, i) => {
+                ponto.classList.toggle("ativa", i === slideAtual);
+                ponto.setAttribute("aria-current", i === slideAtual ? "true" : "false");
+            });
+            const texto = document.querySelector(".memoria-legenda");
+            document.getElementById("memoria-etiqueta").textContent = frasesSlide[slideAtual][0];
+            document.getElementById("memoria-frase").textContent = frasesSlide[slideAtual][1];
+            texto.classList.remove("nova");
+            void texto.offsetWidth;
+            texto.classList.add("nova");
+            const imagemAtual = slides[slideAtual].getAttribute("src");
+            document.body.style.setProperty("--slide-bg", `url("${imagemAtual}")`);
+        }
+
+        pontosSlide.forEach((ponto, indice) => ponto.addEventListener("click", () => {
+            mostrarSlide(indice);
+            clearInterval(relogioSlides);
+            relogioSlides = setInterval(() => mostrarSlide(slideAtual + 1), 6000);
+        }));
+
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            relogioSlides = setInterval(() => mostrarSlide(slideAtual + 1), 6000);
+        }
+
+        // Janeiro é o mês 0 em JavaScript.
+        const dataNoivado = new Date(2027, 0, 9, 14, 0, 0).getTime();
+        let temporizador;
+
+        function atualizarContagem() {
+            const restante = dataNoivado - Date.now();
+
+            if (restante <= 0) {
+                contador.innerHTML = '<p class="contador-final">Hoje é o grande dia!</p>';
+                contador.setAttribute("aria-label", "Hoje é o grande dia");
+                clearInterval(temporizador);
+                return;
+            }
+
+            const dias = Math.floor(restante / 86400000);
+            const horas = Math.floor((restante % 86400000) / 3600000);
+            const minutos = Math.floor((restante % 3600000) / 60000);
+            const segundos = Math.floor((restante % 60000) / 1000);
+
+            contador.innerHTML = [
+                ["Dias", dias],
+                ["Horas", horas],
+                ["Minutos", minutos],
+                ["Segundos", segundos]
+            ].map(([rotulo, valor]) =>
+                `<div class="unidade-contagem"><span class="numero-contagem">${String(valor).padStart(2, "0")}</span><span class="rotulo-contagem">${rotulo}</span></div>`
+            ).join("");
+            contador.setAttribute(
+                "aria-label",
+                `${dias} dias, ${horas} horas, ${minutos} minutos e ${segundos} segundos restantes`
+            );
+        }
+
+        function atualizarPrevisao() {
+            const resposta = document.querySelector('input[name="presenca"]:checked');
+            const aceitou = resposta?.value === "Sim, vou estar presente";
+
+            acompanhantes.disabled = !aceitou;
+
+            if (!resposta) {
+                previsao.textContent = "Seleciona se vais participar.";
+            } else if (!aceitou) {
+                acompanhantes.value = "0";
+                previsao.textContent = "A tua resposta será registada como não poderá participar.";
+            } else {
+                const total = 1 + Number(acompanhantes.value);
+                previsao.textContent =
+                    `Confirmaste ${total} ${total === 1 ? "pessoa" : "pessoas"}, contando contigo.`;
+            }
+        }
+
+        document.querySelectorAll('input[name="presenca"]').forEach((opcao) => {
+            opcao.addEventListener("change", atualizarPrevisao);
+        });
+
+        acompanhantes.addEventListener("change", atualizarPrevisao);
+
+        formulario.addEventListener("submit", (evento) => {
+            evento.preventDefault();
+            if (!formulario.reportValidity()) return;
+
+            const dados = new FormData(formulario);
+            const mensagem = [
+                "Confirmação de presença — Noivado de Flora e Samuel",
+                `Nome: ${dados.get("nome")}`,
+                `E-mail: ${dados.get("email")}`,
+                `Telefone/WhatsApp: ${dados.get("telefone") || "Não indicado"}`,
+                `Presença: ${dados.get("presenca")}`,
+                `Acompanhantes: ${dados.get("acompanhantes") ?? "0"}`,
+                `Mensagem: ${dados.get("mensagem") || "Sem mensagem"}`
+            ].join("\n");
+
+            const texto = encodeURIComponent(mensagem);
+            document.getElementById("enviarWhatsApp").href =
+                `https://wa.me/258857442581?text=${texto}`;
+            document.getElementById("enviarEmail").href =
+                `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent("samueljuniorpaulino12@gmail.com")}&su=${encodeURIComponent("Confirmação de presença — Noivado")}&body=${texto}`;
+            canaisResposta.hidden = false;
+            botaoEnviar.textContent = "Confirmação preparada";
+            estado.textContent = "Agora escolhe um dos canais. A mensagem só será enviada depois de confirmares no WhatsApp ou no teu e-mail.";
+            canaisResposta.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        atualizarContagem();
+        temporizador = setInterval(atualizarContagem, 1000);
+    </script>
+</body>
+</html>
